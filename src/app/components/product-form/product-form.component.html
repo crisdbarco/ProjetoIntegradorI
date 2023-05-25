@@ -1,0 +1,56 @@
+<form ngNativeValidate #productForm="ngForm" (ngSubmit)="registerProduct(productForm)" class="row m-3 border shadow bg-body-tertiary rounded py-1 fade-in">
+    <h3 class="my-2 col-4 fs-4">Formulário de Produto</h3>
+
+    <div class="offset-md-5 col-2 form-floating my-2">
+        <select [(ngModel)]="operation" (ngModelChange)="undefineId()" class="form-select" name="operation" id="operation" required>
+            <option value="create" selected>Cadastrar</option>
+            <option value="update">Editar</option>
+        </select>
+        <label class="ms-2 form-label" for="operation">Cadastrar ou editar?</label>
+    </div>
+
+    <div *ngIf="operation == 'update'" class="col-1 gx-2 d-flex flex-column mt-2">
+        <input type="submit" class="my-2 btn btn-warning" name="edit" id="edit" value="Editar">
+    </div>
+
+    <div *ngIf="operation == 'create'" class="col-1 gx-2 d-flex flex-column mt-2">
+        <input type="submit" class="my-2 btn btn-primary" value="Cadastrar" name="save" id="save">
+    </div>
+    
+    <div class="col-4 form-floating my-2">
+        <input [(ngModel)]="productName" class="form-control" type="text" id="name" name="name" required [disabled]="operation == 'update' && id === undefined">
+        <label class="ms-2 form-label" for="name">Nome do Produto</label>
+    </div>
+
+    <div class="col-4 form-floating my-2">
+        <input [(ngModel)]="productStock" class="form-control" type="number" id="stock" name="stock" required [disabled]="operation == 'update' && id === undefined">
+        <label class="ms-2 form-label" for="stock">Estoque</label>
+    </div>
+
+    <div class="col-4 form-floating my-2">
+        <input [(ngModel)]="unitOfMeasure" class="form-control" type="text" id="unit" name="unit" required [disabled]="operation == 'update' && id === undefined">
+        <label class="ms-2 form-label" for="unit">Unidade de Medida</label>
+    </div>
+
+    <div class="col-4 form-floating my-2">
+        <input [(ngModel)]="stockThreshold" class="form-control" type="number" id="threshold" name="threshold" required [disabled]="operation == 'update' && id === undefined">
+        <label class="ms-2 form-label" for="threshold">Estoque crítico</label>
+    </div>
+
+    <div class="col-4 form-floating my-2">
+        <select [(ngModel)]="productSupplierId" class="form-select" name="supplier" id="supplier" required [disabled]="operation == 'update'">
+            <option value="" selected disabled></option>
+            <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{ supplier.name }}</option>
+        </select>
+        <label class="ms-2 form-label" for="supplier">Fornecedor</label>
+    </div>
+
+    <div class="col-4 form-floating my-2">
+        <select [(ngModel)]="id" (ngModelChange)="loadFields(productForm)" class="form-select" name="id" id="id" [disabled]="operation == 'create'">
+            <option value="" selected disabled></option>
+            <option *ngFor="let product of products" [value]="product.id">{{ product.id }}</option>
+        </select>
+        <label class="ms-2 form-label" for="id">Código</label>
+    </div>
+
+</form>
